@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bookCover" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a6264a" />
+      <stop offset="100%" stop-color="#641c31" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Background icon shape -->
+  <rect width="512" height="512" rx="128" fill="#FAF7F2" />
+  
+  <!-- Book Spine & Cover -->
+  <g filter="url(#shadow)">
+    <!-- Main Book -->
+    <rect x="96" y="80" width="320" height="360" rx="24" fill="url(#bookCover)" />
+    <!-- Spine highlight -->
+    <rect x="96" y="80" width="44" height="360" rx="12" fill="#751e36" />
+    <line x1="140" y1="80" x2="140" y2="440" stroke="#f8cfd8" stroke-opacity="0.3" stroke-width="3" />
+    <!-- Gold Ribbon / Crest -->
+    <circle cx="270" cy="230" r="56" fill="#F4EFE6" stroke="#ede4d5" stroke-width="4" />
+    <!-- Red Cross / Health symbol in circle -->
+    <path d="M256 202 h28 v16 h-28 v28 h-16 v-28 h-28 v-16 h28 v-28 h16 z" fill="#8e203e" />
+    <!-- Bookmark ribbon -->
+    <path d="M330 80 v110 l-18 -15 l-18 15 v-110 z" fill="#F59E0B" />
+    <!-- Embossed Title Text -->
+    <text x="270" y="325" font-family="Inter, -apple-system, sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">RED BOOK</text>
+    <text x="270" y="352" font-family="Inter, -apple-system, sans-serif" font-weight="500" font-size="13" fill="#f8cfd8" text-anchor="middle" letter-spacing="1">PERSONAL HEALTH RECORD</text>
+  </g>
+</svg>

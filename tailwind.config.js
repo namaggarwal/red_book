@@ -1,0 +1,71 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        berry: {
+          50: '#fdf2f4',
+          100: '#fce7eb',
+          200: '#f8cfd8',
+          300: '#f2a8b9',
+          400: '#e87391',
+          500: '#c73860',
+          600: '#a6264a',
+          700: '#8e203e',
+          800: '#751e36',
+          900: '#641c31',
+          950: '#380b17',
+        },
+        ivory: {
+          50: '#fdfbf7',
+          100: '#faf7f2',
+          200: '#f4efe6',
+          300: '#ede4d5',
+          400: '#ddd0bc',
+          500: '#c8b69b',
+        },
+        sage: {
+          50: '#f4f7f5',
+          100: '#e5ece7',
+          200: '#cad9ce',
+          300: '#a4beab',
+          400: '#789d82',
+          500: '#568062',
+          600: '#43664d',
+          700: '#36523e',
+          800: '#2c4233',
+        },
+        babyblue: {
+          50: '#f0f5fa',
+          100: '#dfeaf3',
+          200: '#c3d8e9',
+          300: '#98bed9',
+          400: '#689dc5',
+          500: '#4480af',
+          600: '#346692',
+          700: '#2c5377',
+        },
+      },
+      fontFamily: {
+        sans: [
+          'Inter',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif',
+        ],
+        serif: ['Georgia', 'Cambria', 'serif'],
+      },
+      boxShadow: {
+        card: '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 4px -1px rgba(0, 0, 0, 0.03)',
+        'card-hover': '0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 3px 8px -2px rgba(0, 0, 0, 0.04)',
+      },
+    },
+  },
+  plugins: [],
+};
