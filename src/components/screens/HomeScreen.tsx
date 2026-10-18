@@ -29,6 +29,7 @@ export const HomeScreen: React.FC = () => {
     openRecordDetail,
     setSetupModalOpen,
     seedSampleData,
+    isDemo,
   } = useApp();
 
   if (!profile) {
@@ -52,7 +53,7 @@ export const HomeScreen: React.FC = () => {
             onClick={() => seedSampleData()}
             className="w-full py-3 rounded-xl bg-white border border-stone-200 text-stone-700 font-semibold text-sm hover:bg-stone-50"
           >
-            Explore Sample Record (Baby Tara)
+            Explore Sample Record (Baby Sarah)
           </button>
         </div>
       </div>
@@ -134,7 +135,7 @@ export const HomeScreen: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-berry-700/60 text-berry-100 border border-berry-600/50">
-                UK Red Book • {profile.sex === 'female' ? 'Girl' : 'Boy'}
+                UK Red Book • {profile.sex === 'female' ? 'Girl' : 'Boy'} {isDemo ? '• Demo Profile' : ''}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">

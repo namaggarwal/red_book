@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
-  const { currentScreen, setCurrentScreen, profile, records, childAge } = useApp();
+  const { currentScreen, setCurrentScreen, profile, records, childAge, isDemo } = useApp();
 
   // Calculate quick badges
   const upcomingVaccines = records.filter(
@@ -65,10 +65,17 @@ export const Sidebar: React.FC = () => {
             <div className="w-9 h-9 rounded-full bg-berry-100 border border-berry-200 flex items-center justify-center text-berry-800 font-bold text-sm">
               <Baby className="w-5 h-5 text-berry-700" />
             </div>
-            <div className="min-w-0">
-              <h2 className="text-sm font-semibold text-stone-900 truncate">
-                {profile.preferredName}
-              </h2>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-1">
+                <h2 className="text-sm font-semibold text-stone-900 truncate">
+                  {profile.preferredName}
+                </h2>
+                {isDemo && (
+                  <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-900 border border-amber-300 shrink-0">
+                    Demo
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-stone-500 truncate">
                 {childAge?.formattedPrimary}
               </p>

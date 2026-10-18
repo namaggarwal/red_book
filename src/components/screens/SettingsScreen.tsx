@@ -30,6 +30,7 @@ export const SettingsScreen: React.FC = () => {
     setSetupModalOpen,
     wipeAllData,
     refreshData,
+    isDemo,
   } = useApp();
 
   // Backend config fields
@@ -163,22 +164,44 @@ export const SettingsScreen: React.FC = () => {
 
       {/* Child Profile Quick Edit Button */}
       {profile && (
-        <div className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-xs flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-berry-100 text-berry-800 flex items-center justify-center font-bold">
-              <Baby className="w-5 h-5" />
+        <div
+          className={`p-4 rounded-2xl bg-white border shadow-xs ${
+            isDemo ? 'border-amber-300 bg-amber-50/40' : 'border-stone-200/90'
+          }`}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold ${
+                  isDemo ? 'bg-amber-100 text-amber-800' : 'bg-berry-100 text-berry-800'
+                }`}
+              >
+                <Baby className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-stone-900">{profile.preferredName}'s Profile</h3>
+                  {isDemo && (
+                    <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.2 rounded-full bg-amber-200 text-amber-900 border border-amber-300">
+                      Demo Active
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-stone-500">
+                  {isDemo
+                    ? 'Sample 6-month record for demonstration'
+                    : `DOB: ${profile.dob} • Chart: ${profile.sex}`}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-sm font-bold text-stone-900">{profile.preferredName}'s Profile</h3>
-              <p className="text-xs text-stone-500">DOB: {profile.dob} • Chart: {profile.sex}</p>
-            </div>
+
+            <button
+              onClick={() => setSetupModalOpen(true)}
+              className="px-3.5 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold"
+            >
+              Edit Profile
+            </button>
           </div>
-          <button
-            onClick={() => setSetupModalOpen(true)}
-            className="px-3.5 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold"
-          >
-            Edit Profile
-          </button>
         </div>
       )}
 
@@ -472,6 +495,7 @@ export const SettingsScreen: React.FC = () => {
 
         {/* Danger Zone: Wipe */}
         <div className="pt-3 border-t border-stone-100">
+
           {!confirmWipe ? (
             <button
               type="button"

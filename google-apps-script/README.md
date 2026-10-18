@@ -6,7 +6,7 @@ This guide walks you through setting up your own private Google Sheet backend fo
 
 ### Step 1: Create a new Google Sheet
 1. Go to [Google Sheets](https://sheets.new) in your Google account.
-2. Name your spreadsheet: **`Baby Tara - Red Book UK`** (or your child's name).
+2. Name your spreadsheet: **`Baby Sarah - Red Book UK`** (or your child's name).
 
 ### Step 2: Open Apps Script Editor
 1. In your Google Sheet, click on **Extensions** > **Apps Script** in the top menu.

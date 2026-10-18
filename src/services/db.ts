@@ -236,7 +236,7 @@ class RedBookDatabase {
     localStorage.setItem(STORAGE_KEYS.RECORDS, JSON.stringify(records));
   }
 
-  // Seed sample data for an existing child (e.g. 6-month-old baby Tara)
+  // Seed sample data for an existing child (e.g. 6-month-old baby Sarah)
   async seedSampleData(): Promise<void> {
     // Current date reference: baby born 6 months ago
     const today = new Date();
@@ -246,8 +246,8 @@ class RedBookDatabase {
     const dobString = dobDate.toISOString().split('T')[0];
 
     const profile: ChildProfile = {
-      id: 'child-tara-demo',
-      preferredName: 'Tara',
+      id: 'child-sarah-demo',
+      preferredName: 'Sarah',
       dob: dobString,
       sex: 'female',
       birthWeightKg: 3.25,
@@ -259,6 +259,7 @@ class RedBookDatabase {
       localTimeZone: 'Europe/London',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      isDemo: true,
     };
 
     await this.initializeChild(profile);

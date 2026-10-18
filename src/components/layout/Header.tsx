@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { BookOpen, RefreshCw, Lock, Plus, Cloud, CloudOff, AlertCircle } from 'lucide-react';
+import { BookOpen, RefreshCw, Lock, Plus, Cloud, CloudOff, AlertCircle, LogOut } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const {
@@ -11,6 +11,8 @@ export const Header: React.FC = () => {
     lockApp,
     openQuickAdd,
     setCurrentScreen,
+    isDemo,
+    openExitDemoModal,
   } = useApp();
 
   return (
@@ -32,6 +34,11 @@ export const Header: React.FC = () => {
               <span className="text-[11px] font-bold tracking-wider uppercase px-1.5 py-0.5 rounded bg-berry-50 text-berry-800 border border-berry-200/60">
                 UK
               </span>
+              {isDemo && (
+                <span className="text-[10px] font-extrabold tracking-wider uppercase px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+                  Demo
+                </span>
+              )}
             </div>
             {profile ? (
               <p className="text-xs text-stone-500 flex items-center gap-1.5">
@@ -95,6 +102,19 @@ export const Header: React.FC = () => {
             <span className="hidden sm:inline">Add Record</span>
             <span className="sm:hidden">Add</span>
           </button>
+
+          {/* Exit Demo Button */}
+          {isDemo && (
+            <button
+              onClick={openExitDemoModal}
+              title="Exit Demo Mode"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-semibold transition-colors"
+            >
+              <LogOut className="w-3.5 h-3.5 text-amber-800" />
+              <span className="hidden sm:inline">Exit Demo</span>
+              <span className="sm:hidden">Exit</span>
+            </button>
+          )}
 
           {/* Lock App Button */}
           <button

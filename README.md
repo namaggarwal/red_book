@@ -112,7 +112,7 @@ Open your browser at `http://localhost:3000`.
 
 ### Default Demo Passcode
 - When prompted for a PIN, the default passcode is: **`1234`**
-- If launching for the first time, click **"Explore with sample record (Baby Tara, 6 months)"** to instantly load realistic measurements, vaccinations, and milestones, or create your own baby's profile from scratch!
+- If launching for the first time, click **"Explore with sample record (Baby Sarah, 6 months)"** to instantly load realistic measurements, vaccinations, and milestones, or create your own baby's profile from scratch!
 
 ---
 

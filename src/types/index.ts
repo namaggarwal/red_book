@@ -14,6 +14,7 @@ export interface ChildProfile {
   localTimeZone: string;
   createdAt: string;
   updatedAt: string;
+  isDemo?: boolean;
 }
 
 export type RecordSource = 'parent' | 'health_visitor' | 'gp' | 'hospital' | 'other';

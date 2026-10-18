@@ -3,7 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { Lock, Eye, EyeOff, ShieldCheck, KeyRound, Sparkles } from 'lucide-react';
 
 export const LoginScreen: React.FC = () => {
-  const { unlockApp, seedSampleData, profile } = useApp();
+  const { unlockApp, seedSampleData, profile, isDemo } = useApp();
   const [pin, setPin] = useState('');
   const [showPin, setShowPin] = useState(false);
   const [error, setError] = useState(false);
@@ -66,6 +66,11 @@ export const LoginScreen: React.FC = () => {
             <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-berry-50 border border-berry-200/80 text-xs font-semibold text-berry-900">
               <span>Record for:</span>
               <span>{profile.preferredName}</span>
+              {isDemo && (
+                <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.2 rounded-full bg-amber-200 text-amber-900 border border-amber-300 ml-1">
+                  Demo
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -179,7 +184,7 @@ export const LoginScreen: React.FC = () => {
                 className="inline-flex items-center gap-1.5 text-xs text-berry-700 hover:text-berry-900 font-semibold"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Explore with sample record (Baby Tara, 6 months)</span>
+                <span>Explore with sample record (Baby Sarah, 6 months)</span>
               </button>
             </div>
           )}

@@ -67,6 +67,12 @@ interface AppContextType {
   updateConfig: (newConfig: AppConfig) => Promise<void>;
   seedSampleData: () => Promise<void>;
   wipeAllData: () => Promise<void>;
+  isDemo: boolean;
+  exitDemoModalOpen: boolean;
+  setExitDemoModalOpen: (open: boolean) => void;
+  openExitDemoModal: () => void;
+  closeExitDemoModal: () => void;
+  exitDemoMode: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -81,6 +87,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [quickAddDefaultType, setQuickAddDefaultType] = useState<string | undefined>(undefined);
   const [selectedRecord, setSelectedRecord] = useState<AnyRecord | null>(null);
   const [setupModalOpen, setSetupModalOpen] = useState(false);
+  const [exitDemoModalOpen, setExitDemoModalOpen] = useState(false);
 
   const [syncState, setSyncState] = useState<SyncState>({
     isOnline: navigator.onLine,
@@ -187,7 +194,19 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const saveChildProfile = async (newProfile: ChildProfile) => {
-    await db.saveProfile(newProfile);
+    const isNew =
+      !profile ||
+      profile.id !== newProfile.id ||
+      profile.isDemo ||
+      profile.id === 'child-sarah-demo' ||
+      profile.id === 'child-tara-demo' ||
+      profile.id.includes('demo');
+
+    if (isNew) {
+      await db.initializeChild(newProfile);
+    } else {
+      await db.saveProfile(newProfile);
+    }
     setProfile(newProfile);
     setSetupModalOpen(false);
     await refreshData();
@@ -258,6 +277,27 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setSetupModalOpen(true);
   };
 
+  const isDemo = Boolean(
+    profile &&
+      (profile.isDemo ||
+        profile.id === 'child-sarah-demo' ||
+        profile.id === 'child-tara-demo' ||
+        profile.id.includes('demo'))
+  );
+
+  const openExitDemoModal = () => setExitDemoModalOpen(true);
+  const closeExitDemoModal = () => setExitDemoModalOpen(false);
+
+  const exitDemoMode = async () => {
+    await db.wipeAllData();
+    setProfile(null);
+    setRecords([]);
+    setExitDemoModalOpen(false);
+    setCurrentScreen('home');
+    setIsUnlocked(true);
+    setSetupModalOpen(true);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -288,6 +328,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         updateConfig,
         seedSampleData,
         wipeAllData,
+        isDemo,
+        exitDemoModalOpen,
+        setExitDemoModalOpen,
+        openExitDemoModal,
+        closeExitDemoModal,
+        exitDemoMode,
       }}
     >
       {children}

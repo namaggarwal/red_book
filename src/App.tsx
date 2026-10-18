@@ -20,6 +20,7 @@ import { MoreMenuScreen } from './components/screens/MoreMenuScreen';
 import { QuickAddModal } from './components/modals/QuickAddModal';
 import { RecordDetailModal } from './components/modals/RecordDetailModal';
 import { SetupProfileModal } from './components/modals/SetupProfileModal';
+import { ExitDemoModal } from './components/modals/ExitDemoModal';
 
 const MainLayout: React.FC = () => {
   const {
@@ -94,6 +95,7 @@ const MainLayout: React.FC = () => {
         onClose={() => setSetupModalOpen(false)}
         existingProfile={profile}
       />
+      <ExitDemoModal />
     </div>
   );
 };

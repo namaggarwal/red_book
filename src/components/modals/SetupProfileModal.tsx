@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { ChildProfile, Sex } from '../../types';
 import { Baby, Info, X, Sparkles, Check } from 'lucide-react';
@@ -16,27 +16,81 @@ export const SetupProfileModal: React.FC<SetupProfileModalProps> = ({
 }) => {
   const { saveChildProfile, seedSampleData } = useApp();
 
-  const [preferredName, setPreferredName] = useState(existingProfile?.preferredName || '');
-  const [dob, setDob] = useState(
-    existingProfile?.dob || new Date().toISOString().split('T')[0]
+  const isCurrentDemo = Boolean(
+    existingProfile &&
+      (existingProfile.isDemo ||
+        existingProfile.id === 'child-sarah-demo' ||
+        existingProfile.id === 'child-tara-demo' ||
+        existingProfile.id.includes('demo'))
   );
-  const [sex, setSex] = useState<Sex>(existingProfile?.sex || 'female');
+
+  const [preferredName, setPreferredName] = useState(
+    isCurrentDemo ? '' : existingProfile?.preferredName || ''
+  );
+  const [dob, setDob] = useState(
+    isCurrentDemo ? new Date().toISOString().split('T')[0] : existingProfile?.dob || new Date().toISOString().split('T')[0]
+  );
+  const [sex, setSex] = useState<Sex>(isCurrentDemo ? 'female' : existingProfile?.sex || 'female');
   const [birthWeightKg, setBirthWeightKg] = useState<string>(
-    existingProfile?.birthWeightKg ? String(existingProfile.birthWeightKg) : ''
+    existingProfile && !isCurrentDemo && existingProfile.birthWeightKg
+      ? String(existingProfile.birthWeightKg)
+      : ''
   );
   const [birthLengthCm, setBirthLengthCm] = useState<string>(
-    existingProfile?.birthLengthCm ? String(existingProfile.birthLengthCm) : ''
+    existingProfile && !isCurrentDemo && existingProfile.birthLengthCm
+      ? String(existingProfile.birthLengthCm)
+      : ''
   );
   const [birthHeadCircumferenceCm, setBirthHeadCircumferenceCm] = useState<string>(
-    existingProfile?.birthHeadCircumferenceCm
+    existingProfile && !isCurrentDemo && existingProfile.birthHeadCircumferenceCm
       ? String(existingProfile.birthHeadCircumferenceCm)
       : ''
   );
   const [gestationalAgeWeeks, setGestationalAgeWeeks] = useState<string>(
-    existingProfile?.gestationalAgeWeeks ? String(existingProfile.gestationalAgeWeeks) : '40'
+    existingProfile && !isCurrentDemo && existingProfile.gestationalAgeWeeks
+      ? String(existingProfile.gestationalAgeWeeks)
+      : '40'
   );
-  const [birthDetails, setBirthDetails] = useState(existingProfile?.birthDetails || '');
+  const [birthDetails, setBirthDetails] = useState(
+    existingProfile && !isCurrentDemo ? existingProfile.birthDetails || '' : ''
+  );
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setPreferredName(isCurrentDemo ? '' : existingProfile?.preferredName || '');
+      setDob(
+        isCurrentDemo
+          ? new Date().toISOString().split('T')[0]
+          : existingProfile?.dob || new Date().toISOString().split('T')[0]
+      );
+      setSex(isCurrentDemo ? 'female' : existingProfile?.sex || 'female');
+      setBirthWeightKg(
+        existingProfile && !isCurrentDemo && existingProfile.birthWeightKg
+          ? String(existingProfile.birthWeightKg)
+          : ''
+      );
+      setBirthLengthCm(
+        existingProfile && !isCurrentDemo && existingProfile.birthLengthCm
+          ? String(existingProfile.birthLengthCm)
+          : ''
+      );
+      setBirthHeadCircumferenceCm(
+        existingProfile && !isCurrentDemo && existingProfile.birthHeadCircumferenceCm
+          ? String(existingProfile.birthHeadCircumferenceCm)
+          : ''
+      );
+      setGestationalAgeWeeks(
+        existingProfile && !isCurrentDemo && existingProfile.gestationalAgeWeeks
+          ? String(existingProfile.gestationalAgeWeeks)
+          : '40'
+      );
+      setBirthDetails(
+        existingProfile && !isCurrentDemo ? existingProfile.birthDetails || '' : ''
+      );
+      setError(null);
+    }
+  }, [isOpen, existingProfile, isCurrentDemo]);
 
   if (!isOpen) return null;
 
@@ -52,7 +106,7 @@ export const SetupProfileModal: React.FC<SetupProfileModalProps> = ({
     }
 
     const profileData: ChildProfile = {
-      id: existingProfile?.id || `child-${Date.now().toString(36)}`,
+      id: existingProfile?.id && !isCurrentDemo ? existingProfile.id : `child-${Date.now().toString(36)}`,
       preferredName: preferredName.trim(),
       dob,
       sex,
@@ -64,8 +118,9 @@ export const SetupProfileModal: React.FC<SetupProfileModalProps> = ({
       gestationalAgeWeeks: gestationalAgeWeeks ? parseInt(gestationalAgeWeeks, 10) : null,
       birthDetails: birthDetails.trim() || undefined,
       localTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/London',
-      createdAt: existingProfile?.createdAt || new Date().toISOString(),
+      createdAt: existingProfile && !isCurrentDemo ? existingProfile.createdAt : new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      isDemo: false,
     };
 
     await saveChildProfile(profileData);
@@ -75,7 +130,7 @@ export const SetupProfileModal: React.FC<SetupProfileModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs overflow-y-auto">
       <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-stone-200 relative my-8">
-        {onClose && existingProfile && (
+        {onClose && (
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-1 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100"
@@ -91,10 +146,10 @@ export const SetupProfileModal: React.FC<SetupProfileModalProps> = ({
           </div>
           <div>
             <h2 className="text-xl font-bold text-stone-900">
-              {existingProfile ? 'Edit Child Profile' : 'Welcome to Red Book UK'}
+              {existingProfile && !isCurrentDemo ? 'Edit Child Profile' : 'Welcome to Red Book UK'}
             </h2>
             <p className="text-xs text-stone-500">
-              {existingProfile
+              {existingProfile && !isCurrentDemo
                 ? 'Update your baby\'s personal details and chart settings'
                 : 'Set up your child\'s personal digital health record'}
             </p>
@@ -106,7 +161,7 @@ export const SetupProfileModal: React.FC<SetupProfileModalProps> = ({
           <div className="mb-5 p-3 rounded-xl bg-berry-50/70 border border-berry-200 flex items-center justify-between gap-3">
             <div className="text-xs text-berry-900">
               <span className="font-semibold">Want to see a working demo first?</span>
-              <p className="text-berry-700">Pre-fill with 6-month-old Baby Tara's real schedule & records.</p>
+              <p className="text-berry-700">Pre-fill with 6-month-old Baby Sarah's real schedule & records.</p>
             </div>
             <button
               type="button"
@@ -136,7 +191,7 @@ export const SetupProfileModal: React.FC<SetupProfileModalProps> = ({
               required
               value={preferredName}
               onChange={(e) => setPreferredName(e.target.value)}
-              placeholder="e.g. Tara, Arthur, Maya"
+              placeholder="e.g. Sarah, Arthur, Maya"
               className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-sm focus:ring-2 focus:ring-berry-600 focus:border-berry-600"
             />
           </div>
